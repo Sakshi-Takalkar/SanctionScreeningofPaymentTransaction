@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="table-container" style="margin-top: 25px; padding: 10px;" >
+    <table class="row"> 
+        <tr>
+    <td class="col-md-4" style="width: 10%;">
+        <div><h4 style="margin-left: -150px;">Upload File:</h4>
+            </div>
+        <div>
+            <input type="file" id="UploadFile" (change)="onFileSelected($event)" accept=".csv" />
+            <div  style="margin-left: -100px; margin-top: 10px;" > <mat-icon>info</mat-icon> Please upload a .csv file.</div>
+            <span style="color: red; margin-left: -30px;" *ngIf="isError">Please Upload .csv File</span>
+        </div>
+    </td>
+    <td class="col-md-4" style="width: 90%;">
+        <button mat-raised-button color="primary" (click)="validateTansaction()" style="margin-left: 250px; margin-top: 25px;">Validate</button>
+        <button mat-raised-button color="primary" (click)="screenTansaction()" style="margin-left: 20px; margin-top: 25px;">Screening</button>        
+    </td>
+</tr>
+</table>
+</div>
+    
+    
+    <div *ngIf="dataSource.data.length > 0" class="table-container" style="margin-top: 25px; padding: 10px; margin: left 50px;">
+        <table mat-table [dataSource]="getPaginatedData()" class="mat-elevation-z8" >
+            <!-- Table content here -->
+            <!-- <ng-container matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;" >{{ column }}</th>
+                <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+            </ng-container> -->
+            <ng-container matColumnDef="transactionRef">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Transaction ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.transactionRef}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;"> 
+                Status<input  (keyup)="applyFilter()" id="status-Filter" #searchingFilter placeholder="Search by status">
+                <!-- <mat-icon matSuffix>search</mat-icon></th> -->
+                <td mat-cell *matCellDef="let element"> {{element.status}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Date</th>
+                <td mat-cell *matCellDef="let element"> {{element.date}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="payee">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Payee Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.payee}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="payeeAccount">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Payee Account</th>
+                <td mat-cell *matCellDef="let element"> {{element.payeeAccount}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="payer">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Payer Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.payer}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="payerAccount">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Payer Account</th>
+                <td mat-cell *matCellDef="let element"> {{element.payerAccount}}  </td>
+             </ng-container>
+             <ng-container matColumnDef="amout">
+                <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5; color: #fff;">Amount</th>
+                <td mat-cell *matCellDef="let element"> {{element.amout}}  </td>
+             </ng-container>
+              
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="dataSource.data.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"></mat-paginator>
+
+        
+        <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator> -->
+    </div>
+</div>
